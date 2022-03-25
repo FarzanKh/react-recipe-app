@@ -1,5 +1,7 @@
 import React from 'react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useFetch } from '../../hooks/useFetch';
+import { useHistory } from 'react-router-dom';
 import './Create.css';
 
 const Create = () => {
@@ -8,12 +10,24 @@ const Create = () => {
   const [cookingTime, setCookingTime] = useState('');
   const [newIngredient, setNewIngredient] = useState('');
   const [ingredients, setIngredients] = useState([]);
+  const history = useHistory();
+
+  const { postData, data, error } = useFetch(
+    'https://api.npoint.io/6e647fb47ccb374fbc60/recipes',
+    'POST'
+  );
 
   const ingredientInput = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(title, method, cookingTime, ingredients);
+    postData({
+      title,
+      ingredients,
+      method,
+      cookingTime: cookingTime + ' minutes',
+    });
   };
 
   const handleAdd = (e) => {
@@ -26,6 +40,12 @@ const Create = () => {
     setNewIngredient('');
     ingredientInput.current.focus();
   };
+
+  useEffect(() => {
+    if (data) {
+      history.push('/');
+    }
+  }, [data]);
 
   return (
     <div className="create">
