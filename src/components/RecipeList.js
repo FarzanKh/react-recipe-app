@@ -1,3 +1,4 @@
+import React from 'react';
 import './RecipeList.css';
 import { Link } from 'react-router-dom';
 
@@ -5,7 +6,7 @@ const RecipeList = ({ recipes }) => {
   return (
     <div className="recipe-list">
       {recipes &&
-        recipes.map((recipe) => (
+        recipes.recipes.map((recipe) => (
           <div key={recipe.id} className="card">
             <h3>{recipe.title}</h3>
             <p>{recipe.cookingTime} to make.</p>
